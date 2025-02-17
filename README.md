@@ -5,6 +5,7 @@
 
 ## Get YouTube Transcript
 
+### Get Transcript by passing videoID to fetchTranscript(videoID: videoID)
 ```swift
 func fetchTranscript() {
             let videoID = "5WBuk8MLkv0"
@@ -20,7 +21,7 @@ func fetchTranscript() {
                 case .success(let newTranscript):
                     DispatchQueue.main.async {
                         transcript = newTranscript
-                        onSummarizeTapped()
+                        onSummarizeTapped() // If successfully got transcript, send it to gemini
                     }
                 case .failure(let error):
                     DispatchQueue.main.async {
@@ -31,8 +32,44 @@ func fetchTranscript() {
             }
         }
 ```
-
 TODO: Modify 'videoID' when YouTube Search API result is working
+
+### Request transcript from local hosted server using <a href="https://github.com/daniliao/getTranscriptServer">getTranscriptServer</a>
+
+Send request to http://127.0.0.1:8000/transcript
+
+```swift
+func fetchTranscript(videoID: String, completion: @escaping (Result<String, Error>) -> Void) {
+            let urlString = "http://127.0.0.1:8000/transcript?video_id=\(videoID)"
+            guard let url = URL(string: urlString) else {
+                completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+                return
+            }
+            
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                guard let data = data else {
+                    completion(.failure(NSError(domain: "No data", code: 0, userInfo: nil)))
+                    return
+                }
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                    if let transcript = json?["transcript"] as? [[String: Any]] {
+                        let fullTranscript = transcript.compactMap { $0["text"] as? String }.joined(separator: " ")
+                        completion(.success(fullTranscript))
+                    } else {
+                        completion(.failure(NSError(domain: "Parsing error", code: 0, userInfo: nil)))
+                    }
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+```
 
 ## Use Gemini API to summarize transcript into ingredients and instructions
 
