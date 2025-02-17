@@ -75,7 +75,7 @@ func fetchTranscript(videoID: String, completion: @escaping (Result<String, Erro
 
 ## Use Gemini API to summarize transcript into ingredients and instructions
 
-### Send transcript to SummarizeViewModel.swift for Gemini
+### Send transcript to SummarizeViewModel.swift
 
 ```swift
 func onSummarizeTapped() {
@@ -89,6 +89,14 @@ func onSummarizeTapped() {
 
 ```swift
 let prompt = "Summarize the following YouTube recipe transcript into two sections: Ingredients and Instructions. The Ingredients section should list all ingredients with their quantities, formatted as bullet points. The Instructions section should be numbered, with each step describing the cooking process in a concise manner:  \(transcript)"
+
+      let outputContentStream = model.generateContentStream(prompt)
+
+      // stream response
+      for try await outputContent in outputContentStream {
+        guard let line = outputContent.text else {
+          return
+        }
 ```
 
 
