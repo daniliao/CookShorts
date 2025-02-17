@@ -34,7 +34,7 @@ func fetchTranscript() {
 ```
 TODO: Modify 'videoID' when YouTube Search API result is working
 
-### Request transcript from local hosted server using <a href="https://github.com/daniliao/getTranscriptServer">getTranscriptServer</a>
+### Request transcript from local hosted server using <a href="https://github.com/daniliao/getTranscriptServer" target="_blank">getTranscriptServer</a>
 
 Send request to http://127.0.0.1:8000/transcript
 
