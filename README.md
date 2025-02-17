@@ -34,7 +34,7 @@ func fetchTranscript() {
 
 TODO: Modify 'videoID' when YouTube Search API result is working
 
-## Use Gemini API to make recipe | Ingredients and Instructions
+## Use Gemini API to summarize transcript into ingredients and instructions
 
 ### Send transcript to SummarizeViewModel.swift for Gemini
 
