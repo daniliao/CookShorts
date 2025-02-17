@@ -38,6 +38,8 @@ TODO: Modify 'videoID' when YouTube Search API result is working
 
 Send request to http://127.0.0.1:8000/transcript
 
+Converts JSON into array of dictionaries and joins them with spaces " " in between 
+
 ```swift
 func fetchTranscript(videoID: String, completion: @escaping (Result<String, Error>) -> Void) {
             let urlString = "http://127.0.0.1:8000/transcript?video_id=\(videoID)"
