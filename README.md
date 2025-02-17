@@ -5,8 +5,6 @@
 
 ## Get YouTube Transcript
 
-Modify 'videoID' when YouTube Search API result is working
-
 ```swift
 func fetchTranscript() {
             let videoID = "5WBuk8MLkv0"
@@ -33,6 +31,8 @@ func fetchTranscript() {
             }
         }
 ```
+
+TODO: Modify 'videoID' when YouTube Search API result is working
 
 ## Use Gemini API to make recipe | Ingredients and Instructions
 
