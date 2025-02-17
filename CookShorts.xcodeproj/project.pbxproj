@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		658E813A2D62E36E008B7D0D /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 658E81392D62E36E008B7D0D /* GoogleGenerativeAI */; };
+		658E813C2D62E9FA008B7D0D /* SummarizeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658E813B2D62E9DC008B7D0D /* SummarizeViewModel.swift */; };
+		658E81402D62EA21008B7D0D /* GenerativeAI-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 658E813E2D62EA21008B7D0D /* GenerativeAI-Info.plist */; };
+		658E81412D62EA21008B7D0D /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658E813D2D62EA21008B7D0D /* APIKey.swift */; };
+		658E81442D62EECE008B7D0D /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 658E81432D62EECE008B7D0D /* MarkdownUI */; };
 		7B76F0E72B5DA280002F7756 /* NavigationSp24App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B76F0E62B5DA280002F7756 /* NavigationSp24App.swift */; };
 		7B76F0E92B5DA280002F7756 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B76F0E82B5DA280002F7756 /* ContentView.swift */; };
 		7B76F0EB2B5DA281002F7756 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B76F0EA2B5DA281002F7756 /* Assets.xcassets */; };
@@ -16,6 +21,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		658E813B2D62E9DC008B7D0D /* SummarizeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummarizeViewModel.swift; sourceTree = "<group>"; };
+		658E813D2D62EA21008B7D0D /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		658E813E2D62EA21008B7D0D /* GenerativeAI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GenerativeAI-Info.plist"; sourceTree = "<group>"; };
 		7B76F0E32B5DA280002F7756 /* NavigationSp24.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavigationSp24.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B76F0E62B5DA280002F7756 /* NavigationSp24App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSp24App.swift; sourceTree = "<group>"; };
 		7B76F0E82B5DA280002F7756 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -30,12 +38,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				658E813A2D62E36E008B7D0D /* GoogleGenerativeAI in Frameworks */,
+				658E81442D62EECE008B7D0D /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		658E813F2D62EA21008B7D0D /* APIKey */ = {
+			isa = PBXGroup;
+			children = (
+				658E813D2D62EA21008B7D0D /* APIKey.swift */,
+				658E813E2D62EA21008B7D0D /* GenerativeAI-Info.plist */,
+			);
+			path = APIKey;
+			sourceTree = "<group>";
+		};
 		7B76F0DA2B5DA280002F7756 = {
 			isa = PBXGroup;
 			children = (
@@ -55,6 +74,8 @@
 		7B76F0E52B5DA280002F7756 /* NavigationSp24 */ = {
 			isa = PBXGroup;
 			children = (
+				658E813F2D62EA21008B7D0D /* APIKey */,
+				658E813B2D62E9DC008B7D0D /* SummarizeViewModel.swift */,
 				7B76F0E62B5DA280002F7756 /* NavigationSp24App.swift */,
 				7B76F0E82B5DA280002F7756 /* ContentView.swift */,
 				7B76F0FD2B5F89C9002F7756 /* SecondView.swift */,
@@ -108,7 +129,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7B76F0DE2B5DA280002F7756 /* Build configuration list for PBXProject "NavigationSp24" */;
+			buildConfigurationList = 7B76F0DE2B5DA280002F7756 /* Build configuration list for PBXProject "CookShorts" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -117,6 +138,10 @@
 				Base,
 			);
 			mainGroup = 7B76F0DA2B5DA280002F7756;
+			packageReferences = (
+				658E81382D62E36E008B7D0D /* XCRemoteSwiftPackageReference "generative-ai-swift" */,
+				658E81422D62EECE008B7D0D /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+			);
 			productRefGroup = 7B76F0E42B5DA280002F7756 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -133,6 +158,7 @@
 			files = (
 				7B76F0EE2B5DA281002F7756 /* Preview Assets.xcassets in Resources */,
 				7B76F0EB2B5DA281002F7756 /* Assets.xcassets in Resources */,
+				658E81402D62EA21008B7D0D /* GenerativeAI-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +173,8 @@
 				7B76F1002B5F89DB002F7756 /* ThirdView.swift in Sources */,
 				7B76F0FE2B5F89C9002F7756 /* SecondView.swift in Sources */,
 				7B76F0E72B5DA280002F7756 /* NavigationSp24App.swift in Sources */,
+				658E81412D62EA21008B7D0D /* APIKey.swift in Sources */,
+				658E813C2D62E9FA008B7D0D /* SummarizeViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,7 +361,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7B76F0DE2B5DA280002F7756 /* Build configuration list for PBXProject "NavigationSp24" */ = {
+		7B76F0DE2B5DA280002F7756 /* Build configuration list for PBXProject "CookShorts" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7B76F0EF2B5DA281002F7756 /* Debug */,
@@ -352,6 +380,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		658E81382D62E36E008B7D0D /* XCRemoteSwiftPackageReference "generative-ai-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google-gemini/generative-ai-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.6;
+			};
+		};
+		658E81422D62EECE008B7D0D /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		658E81392D62E36E008B7D0D /* GoogleGenerativeAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 658E81382D62E36E008B7D0D /* XCRemoteSwiftPackageReference "generative-ai-swift" */;
+			productName = GoogleGenerativeAI;
+		};
+		658E81432D62EECE008B7D0D /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 658E81422D62EECE008B7D0D /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7B76F0DB2B5DA280002F7756 /* Project object */;
 }

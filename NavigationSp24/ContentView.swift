@@ -1,5 +1,7 @@
 import SwiftUI
 import WebKit
+import GoogleGenerativeAI
+import MarkdownUI
 
 struct WebView: UIViewRepresentable {
     var url: URL
@@ -16,8 +18,9 @@ struct WebView: UIViewRepresentable {
 }
 
 struct ContentView: View {
+    @StateObject var viewModel = SummarizeViewModel()
+    @State var transcript: String = ""
     @State private var path = NavigationPath()
-    @State private var transcript: String = ""
     @State private var isLoading: Bool = false
     @State private var isError: Bool = false
     
@@ -46,44 +49,66 @@ struct ContentView: View {
                     
                     WebView(url: vid4)
                         .frame(width: 168.75, height: 300)
-                    
-                    
                 }
             }
             VStack {
-                        Text(isLoading ? "Loading transcipt..." : (isError ? "Error fetching transcript" : transcript))
-                            .padding()
-                            .font(.body)
-                            .lineLimit(nil) // Allows for unlimited lines of text
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding()
-
-                        Button(action: fetchTranscript) {
-                            Text("Fetch Transcript")
-                                .padding()
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-                    }
-                    .padding()
+                if isLoading {
+                    Text("Loading transcript...")
+                        .padding()
+                        .font(.body)
+                        .lineLimit(nil)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                } else if isError {
+                    Text("Error fetching transcript")
+                        .padding()
+                        .font(.body)
+                        .lineLimit(nil)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                } else {
+                    Markdown("\(viewModel.outputText)")
+                        .padding()
+                        .font(.body)
+                        .lineLimit(nil)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                }
+                
+                Button(action: fetchTranscript) {
+                    Text("Fetch Transcript")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+            }
+            .padding()
         }
     }
-    func fetchTranscript() {
-        let videoID = "5WBuk8MLkv0"
-        isLoading = true
-        isError = false
+        
+        func onSummarizeTapped() {
+            Task {
+                await viewModel.summarize(transcript: transcript)
+            }
+        }
+        
+        func fetchTranscript() {
+            let videoID = "5WBuk8MLkv0"
+            isLoading = true
+            isError = false
             
             fetchTranscript(videoID: videoID) { result in
                 DispatchQueue.main.async {
                     isLoading = false
                 }
-
+                
                 
                 switch result {
                 case .success(let newTranscript):
                     DispatchQueue.main.async {
                         transcript = newTranscript
+                        onSummarizeTapped()
                     }
                 case .failure(let error):
                     DispatchQueue.main.async {
@@ -93,41 +118,46 @@ struct ContentView: View {
                 }
             }
         }
-    func fetchTranscript(videoID: String, completion: @escaping (Result<String, Error>) -> Void) {
-        let urlString = "http://127.0.0.1:8000/transcript?video_id=\(videoID)"
-        guard let url = URL(string: urlString) else {
-            completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
-            return
-        }
-
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
+        
+        func fetchTranscript(videoID: String, completion: @escaping (Result<String, Error>) -> Void) {
+            let urlString = "http://127.0.0.1:8000/transcript?video_id=\(videoID)"
+            guard let url = URL(string: urlString) else {
+                completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
                 return
             }
-            guard let data = data else {
-                completion(.failure(NSError(domain: "No data", code: 0, userInfo: nil)))
-                return
-            }
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                if let transcript = json?["transcript"] as? [[String: Any]] {
-                    let fullTranscript = transcript.compactMap { $0["text"] as? String }.joined(separator: " ")
-                    completion(.success(fullTranscript))
-                } else {
-                    completion(.failure(NSError(domain: "Parsing error", code: 0, userInfo: nil)))
+            
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
                 }
-            } catch {
-                completion(.failure(error))
+                guard let data = data else {
+                    completion(.failure(NSError(domain: "No data", code: 0, userInfo: nil)))
+                    return
+                }
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                    if let transcript = json?["transcript"] as? [[String: Any]] {
+                        let fullTranscript = transcript.compactMap { $0["text"] as? String }.joined(separator: " ")
+                        completion(.success(fullTranscript))
+                    } else {
+                        completion(.failure(NSError(domain: "Parsing error", code: 0, userInfo: nil)))
+                    }
+                } catch {
+                    completion(.failure(error))
+                }
             }
+            task.resume()
         }
-        task.resume()
+    }
+
+
+
+
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
 }
 
-
-
-
-#Preview {
-    ContentView()
-}
